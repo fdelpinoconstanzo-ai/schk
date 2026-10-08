@@ -6,7 +6,7 @@
     <title>SCHK</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=swap" rel="stylesheet" />
-    <link rel="icon" href="logo.png" />
+    <link rel="icon" href="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/logo.png" />
     <style>
       :root {
         --void: #070707;
@@ -113,13 +113,13 @@
       <div class="phone">
         <section id="lejos" class="panel on">
           <div class="sky" id="sky">
-            <div class="mark"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="mark"><img class="logo" src="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/logo.png" alt="Estudio Schkolnick" /></div>
             <div class="space" id="space"></div>
           </div>
         </section>
         <section id="junto" class="panel">
           <div class="col scroll">
-            <div class="pad"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="pad"><img class="logo" src="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/logo.png" alt="Estudio Schkolnick" /></div>
             <div class="films" id="junto-films"></div>
             <div class="photos" id="junto-photos"></div>
             <div style="height: 108px"></div>
@@ -128,13 +128,13 @@
         <section id="cine" class="panel">
           <div class="col">
             <button class="cine" id="cine-main" type="button" aria-label="Otro comercial"></button>
-            <div class="mark"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="mark"><img class="logo" src="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/logo.png" alt="Estudio Schkolnick" /></div>
             <div class="ledge" id="ledge"></div>
           </div>
         </section>
         <section id="fotos" class="panel">
           <div class="col scroll paper">
-            <div class="pad"><img class="logo ink" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="pad"><img class="logo ink" src="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/logo.png" alt="Estudio Schkolnick" /></div>
             <div class="photos" id="foto-photos"></div>
             <div class="films" id="foto-films"></div>
             <div style="height: 108px"></div>
@@ -142,14 +142,15 @@
         </section>
         <div class="dock">
           <button class="contacto" id="contacto" type="button">Contacto</button>
-          <img class="pablo" id="pablo" alt="Pablo Sanhueza" src="pablo.jpg" hidden />
+          <img class="pablo" id="pablo" alt="Pablo Sanhueza" src="https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/pablo.jpg" hidden />
           <div class="opts" id="opts"></div>
         </div>
       </div>
     </div>
     <script>
-      const films = ["comercial-1.jpg", "comercial-2.jpg"];
-      const photos = ["n212.jpg", "jonas.jpg", "om.jpg"];
+      const base = "https://raw.githubusercontent.com/fdelpinoconstanzo-ai/schk/main/";
+      const films = [base + "comercial-1.jpg", base + "comercial-2.jpg"];
+      const photos = [base + "n212.jpg", base + "jonas.jpg", base + "om.jpg"];
       const sky = [
         { src: films[0], x: "24%", y: "28%", z: "-80px", tilt: "-7deg", dur: "6.4s", zi: 2, delay: "0s" },
         { src: films[1], x: "76%", y: "22%", z: "40px", tilt: "6deg", dur: "8s", zi: 4, delay: "0.08s" },
