@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>SCHK</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&display=swap" rel="stylesheet" />
+    <link rel="icon" href="logo.png" />
+    <style>
+      :root {
+        --void: #070707;
+        --bone: #f3f3f1;
+        --snow: #fff;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; height: 100%; background: var(--void); color: var(--bone); }
+      body { font-family: Archivo, Helvetica, Arial, sans-serif; }
+      button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+      .stage { min-height: 100dvh; }
+      .phone {
+        position: relative;
+        height: 100dvh;
+        overflow: hidden;
+        background: var(--void);
+        container-type: size;
+      }
+      .logo { height: 28px; width: auto; display: block; }
+      .logo.ink { filter: invert(1); }
+      .sky { position: relative; height: 100%; perspective: 780px; perspective-origin: 50% 42%; }
+      .space { position: absolute; inset: 0; transform-style: preserve-3d; }
+      .card {
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        z-index: var(--zi);
+        width: 8cqw;
+        max-width: 72px;
+        opacity: 0;
+        transform: translate(-50%, -50%) translateZ(-1600px);
+        transform-style: preserve-3d;
+        transition: transform 1.25s cubic-bezier(0.16, 1, 0.3, 1), left 1.25s cubic-bezier(0.16, 1, 0.3, 1), top 1.25s cubic-bezier(0.16, 1, 0.3, 1), width 1.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
+        transition-delay: var(--delay);
+      }
+      .card.snap { transition: none; }
+      .card.in {
+        left: var(--x);
+        top: var(--y);
+        width: 36cqw;
+        max-width: 200px;
+        opacity: 1;
+        transform: translate(-50%, -50%) translateZ(var(--z));
+      }
+      .card img, .shot img { width: 100%; display: block; }
+      .card img { aspect-ratio: 16/9; object-fit: cover; }
+      .bob { display: block; animation: bob var(--dur) ease-in-out infinite alternate; }
+      @keyframes bob {
+        from { transform: translate3d(-8px, -14px, 0) rotate(var(--tilt)); }
+        to { transform: translate3d(10px, 18px, 0) rotate(calc(var(--tilt) * -0.5)); }
+      }
+      .panel { display: none; height: 100%; min-height: 0; }
+      .panel.on { display: flex; }
+      .col { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+      .scroll { overflow-y: auto; }
+      .pad { padding: 14px 16px 0; }
+      .films img, .photos img { width: 100%; display: block; }
+      .films img { aspect-ratio: 16/9; object-fit: contain; background: var(--void); }
+      .photos img { aspect-ratio: 16/9; object-fit: cover; }
+      .paper { background: var(--bone); color: #1c1915; }
+      .dock {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 50;
+        padding-bottom: max(6px, env(safe-area-inset-bottom));
+        background: rgba(7, 7, 7, 0.92);
+      }
+      .contacto { min-height: 44px; width: 100%; letter-spacing: 0.04em; font-size: 14px; }
+      .pablo { display: block; width: 100%; max-height: 168px; object-fit: contain; margin: 0 auto; }
+      .opts { display: flex; gap: 6px; justify-content: center; padding: 0 8px 8px; }
+      .opts button {
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 999px;
+        border: 1px solid var(--bone);
+        font-size: 13px;
+      }
+      .opts button.on { background: var(--snow); color: var(--void); border-color: var(--snow); }
+      .mark { position: absolute; top: 0; left: 0; z-index: 40; padding: 16px; pointer-events: none; }
+      .cine { position: relative; flex: 1; min-height: 0; }
+      .cine img { width: 100%; height: 100%; object-fit: cover; }
+      .ledge { display: flex; gap: 4px; overflow-x: auto; padding: 8px; }
+      .ledge img { height: 64px; width: 48px; object-fit: cover; flex: none; }
+      .ledge img.wide { width: 112px; }
+      @media (min-width: 768px) {
+        .stage { display: grid; min-height: 100dvh; place-items: center; background: #121212; }
+        .phone {
+          width: 390px;
+          height: min(844px, 100dvh);
+          border-radius: 28px;
+          box-shadow: 0 0 0 1px rgba(243, 243, 241, 0.4);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .bob { animation: none; }
+        .card { transition: none; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="stage">
+      <div class="phone">
+        <section id="lejos" class="panel on">
+          <div class="sky" id="sky">
+            <div class="mark"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="space" id="space"></div>
+          </div>
+        </section>
+        <section id="junto" class="panel">
+          <div class="col scroll">
+            <div class="pad"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="films" id="junto-films"></div>
+            <div class="photos" id="junto-photos"></div>
+            <div style="height: 108px"></div>
+          </div>
+        </section>
+        <section id="cine" class="panel">
+          <div class="col">
+            <button class="cine" id="cine-main" type="button" aria-label="Otro comercial"></button>
+            <div class="mark"><img class="logo" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="ledge" id="ledge"></div>
+          </div>
+        </section>
+        <section id="fotos" class="panel">
+          <div class="col scroll paper">
+            <div class="pad"><img class="logo ink" src="logo.png" alt="Estudio Schkolnick" /></div>
+            <div class="photos" id="foto-photos"></div>
+            <div class="films" id="foto-films"></div>
+            <div style="height: 108px"></div>
+          </div>
+        </section>
+        <div class="dock">
+          <button class="contacto" id="contacto" type="button">Contacto</button>
+          <img class="pablo" id="pablo" alt="Pablo Sanhueza" src="pablo.jpg" hidden />
+          <div class="opts" id="opts"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const films = ["comercial-1.jpg", "comercial-2.jpg"];
+      const photos = ["n212.jpg", "jonas.jpg", "om.jpg"];
+      const sky = [
+        { src: films[0], x: "24%", y: "28%", z: "-80px", tilt: "-7deg", dur: "6.4s", zi: 2, delay: "0s" },
+        { src: films[1], x: "76%", y: "22%", z: "40px", tilt: "6deg", dur: "8s", zi: 4, delay: "0.08s" },
+        { src: photos[0], x: "18%", y: "58%", z: "-20px", tilt: "4deg", dur: "7.2s", zi: 3, delay: "0.16s" },
+        { src: photos[1], x: "74%", y: "62%", z: "-120px", tilt: "-5deg", dur: "9s", zi: 1, delay: "0.22s" },
+        { src: photos[2], x: "46%", y: "44%", z: "90px", tilt: "3deg", dur: "5.6s", zi: 5, delay: "0.3s" },
+      ];
+      const names = ["Lejos", "Junto", "Cine", "Fotos"];
+      const ids = ["lejos", "junto", "cine", "fotos"];
+      let mode = "lejos";
+      let lead = 0;
+      const space = document.getElementById("space");
+      sky.forEach((p) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "card snap";
+        b.style.setProperty("--x", p.x);
+        b.style.setProperty("--y", p.y);
+        b.style.setProperty("--z", p.z);
+        b.style.setProperty("--tilt", p.tilt);
+        b.style.setProperty("--dur", p.dur);
+        b.style.setProperty("--zi", p.zi);
+        b.style.setProperty("--delay", p.delay);
+        b.innerHTML = '<span class="bob" style="--tilt:' + p.tilt + ";--dur:" + p.dur + '"><img alt="" src="' + p.src + '"></span>';
+        space.appendChild(b);
+      });
+      function fill(el, list, cover) {
+        el.innerHTML = list.map((src) => '<img alt="" src="' + src + '">').join("");
+      }
+      fill(document.getElementById("junto-films"), films);
+      fill(document.getElementById("junto-photos"), photos);
+      fill(document.getElementById("foto-photos"), photos);
+      fill(document.getElementById("foto-films"), films);
+      function paintCine() {
+        const main = films[lead];
+        const other = films[1 - lead];
+        document.getElementById("cine-main").innerHTML = '<img alt="Comercial" src="' + main + '">';
+        document.getElementById("ledge").innerHTML =
+          '<img class="wide" alt="" src="' + other + '">' + photos.map((s) => '<img alt="" src="' + s + '">').join("");
+      }
+      paintCine();
+      document.getElementById("cine-main").onclick = () => { lead = 1 - lead; paintCine(); };
+      document.getElementById("ledge").onclick = (e) => {
+        if (e.target.closest("img.wide")) { lead = 1 - lead; paintCine(); }
+      };
+      function fly() {
+        const cards = space.querySelectorAll(".card");
+        cards.forEach((c) => { c.classList.add("snap"); c.classList.remove("in"); });
+        requestAnimationFrame(() => {
+          cards.forEach((c) => c.classList.remove("snap"));
+          requestAnimationFrame(() => cards.forEach((c) => c.classList.add("in")));
+        });
+      }
+      const opts = document.getElementById("opts");
+      names.forEach((name, i) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = name;
+        b.onclick = () => show(ids[i]);
+        opts.appendChild(b);
+      });
+      function show(id) {
+        mode = id;
+        document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("on", p.id === id));
+        [...opts.children].forEach((b, i) => b.classList.toggle("on", ids[i] === id));
+        if (id === "lejos") fly();
+      }
+      document.getElementById("contacto").onclick = () => {
+        const img = document.getElementById("pablo");
+        img.hidden = !img.hidden;
+      };
+      document.getElementById("sky").onclick = (e) => {
+        if (e.target === e.currentTarget || e.target.classList.contains("space")) show("lejos");
+      };
+      [...opts.children][0].classList.add("on");
+    </script>
+  </body>
+</html>
