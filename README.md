@@ -1,1 +1,1 @@
-SCHK. Abrí el sitio en el celular y apretá Lejos.
+SCHK para el celular. Abrí cel.html, apretá Lejos.
